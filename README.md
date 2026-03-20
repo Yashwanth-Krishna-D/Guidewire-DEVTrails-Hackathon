@@ -32,6 +32,10 @@
 
 ## **System Flow**
 
+>| # | Component | Description | Location |
+>| :-- | :--- | :--- | :--- |
+>| 1 | **Solution Architecture** | Detailed breakdown of all components and their roles within the overall system design. | [`docs/Solution_architecture.md`](./docs/Solution_architecture.md) |
+
 <p align="center">
   <img src="assets/system_flow.png" width="500">
 <p>
@@ -44,11 +48,35 @@
 >
 > When a valid event is detected, **parametric payouts are triggered automatically**, with all actions recorded in an **audit layer** for transparency.
 
+
+## **Pricing Model Overview** 
+
+>The system utilizes a **Weekly Predictive Underwriting** approach. Unlike traditional insurance models relying on static historical averages, our system calculates premiums based on **Real-Time Risk Probability (RRP)** and **Individualized Earnings Potential (IEP)** for the upcoming seven-day window.
+>
+>The objective is to neutralize the financial impact of external disruptions (Environmental, Regulatory, or Macro-economic) through hyper-localized pricing.
+>
+>>## *Formula*
+>>
+>>$$P_w = \left( \frac{(L_e \cdot V_s) \cdot \Phi_r}{K} \right) \cdot (1 + M)$$
+>>
+>>**Variables:**
+>>- $P_w$: Weekly Premium
+>>- $L_e$: Expected Income Loss (Base)
+>>- $V_s$: Spatio-Temporal Volatility Score (Local risk variance)
+>>- $\Phi_r$: Worker Reliability Multiplier (Historical engagement index)
+>>- $K$: Risk Pool Normalization Factor (converts individual risk into pooled, affordable pricing)
+>>- $M$: Operational Margin (22% – 34%)
+>>---
+>| # | Component | Description | Location |
+>| :-- | :--- | :--- | :--- |
+>| 2 | **Pricing Model** | Explains how weekly premiums are calculated using predicted income loss, risk factors, and AI-driven adjustments.| [`docs/Pricing_Model.md`](./docs/Pricing_Model.md) |
+
+---
 ## Resource Mapping
 
 | # | Component | Description | Location |
 | :-- | :--- | :--- | :--- |
 | 1 | **Solution Architecture** | Detailed breakdown of all components and their roles within the overall system design. | [`docs/Solution_architecture.md`](./docs/Solution_architecture.md) |
-| 2 | **System Flow Diagram** | Visual representation of the system workflow, illustrating stages and logic gates. | [`assets/system_flow.png`](./assets/system_flow.png) |
+| 2 | **Pricing Model** | Explains how weekly premiums are calculated using predicted income loss, risk factors, and AI-driven adjustments.| [`docs/Pricing_Model.md`](./docs/Pricing_Model.md) |
 
 ---
