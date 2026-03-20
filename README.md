@@ -94,7 +94,60 @@
 >| 3 | **Market Crash Defense** | Detailed Explantion of three-layer fraud defense strategy combining device integrity, graph-based ring detection (R-GCN), and temporal analysis to mitigate coordinated spoofing attacks. | [`docs/Market_Crash_Defense.md`](./docs/Market_Crash_Defense.md) |
 >| 4 | **Literature Review** | Analysis of anti-spoofing research and prior work, whose insights are adapted using transfer learning to strengthen the system’s fraud detection capabilities. | [`docs/Literature_Review.md`](./docs/Literature_Review.md) |
 
+## Innovation 
+<p align="center">
+  <img src="assets/innovation.png" width="500">
+<p>
+
+>| # | Component | Description | Location |
+>| :-- | :--- | :--- | :--- |
+>| 5 | **Innovation** | Highlighting our key innovations across both technical architecture and product features. | [`docs/Innovation.md`](./docs/Innovation.md) |
+
+
+## Planned Tech Stack
+
+>### AI / Machine Learning
+>>| Technology | Category | Role in System |
+>>| :--- | :--- | :--- |
+>>| **DeepAR / TFT** | Forecasting | weekly disruption probability forecasting |
+>>| **XGBoost** | ML Model | MVP Model |
+>>| **R-GCN** | Fraud Detection | Core graph-based fraud ring detection |
+>>| **T-GNN** | Fraud Detection | Detects synchronized or scripted payout attacks via temporal coordination analysis |
+>>| **BERT** | Signal Processing | Parses local news and government announcements for curfew or disruption signals |
+>
+>---
+>
+>### Application Platform
+>>| Technology | Category | Role in System |
+>>| :--- | :--- | :--- |
+>>| **Flutter** | Mobile Application | Enrollment, coverage management, monitoring, and payout interface |
+>>| **Python** | Backend | Acts as a bridge, receiving requests from the Flutter app and querying the database |
+>>| **SHA-256** | Hashing | Immutable log of all signal validations, event detections, and payout executions |
+>>| **JWTs** | Security | Controlled session-level access to location and device signals to prevent manipulation |
+>
+>---
+>
+>### Data Infrastructure and Engineering 
+>>| Technology | Category | Role in System |
+>>| :--- | :--- | :--- |
+>>| **PostgreSQL** | DB | Store information and sync it across devices |
+>>| **PostGIS** | Geospatial DB | Stores and queries spatial risk zone data |
+>>| **H3 Index** | Spatial Indexing | Hexagonal binning of risk zones for hyper-local pricing using grid system |
+>>| **Feast** | Feature Store | Real-time serving of historical earnings features for the pricing engine |
+>>| **Prefect / Airflow** | Orchestration | Schedules weather and AQI data ingestion pipelines |
+>>| **BentoML** | Inference Engine | Serves XGBoost and TFT models in production |
+>
+>---
+>
+>### External Data Sources
+>>| Technology | Category | Role in System |
+>>| :--- | :--- | :--- |
+>>| **IMD Satellite Data** | Weather API | Primary weather feed for the disruption probability model |
+>>| **CPCB Sensor Grids** | AQI Feed | Air quality index data for pollution-based disruption detection |
+>>| **Government Announcements** | Regulatory Feed | Automatically detects curfews, lockdowns, and public safety events |
+
 ---
+
 ## Resource Mapping
 
 | # | Component | Description | Location |
@@ -103,5 +156,6 @@
 | 2 | **Pricing Model** | Explains how weekly premiums are calculated using predicted income loss, risk factors, and AI-driven adjustments.| [`docs/Pricing_Model.md`](./docs/Pricing_Model.md) |
 | 3 | **Market Crash Defense** | Detailed Explantion of three-layer fraud defense strategy combining device integrity, graph-based ring detection (R-GCN), and temporal analysis to mitigate coordinated spoofing attacks. | [`docs/Market_Crash_Defense.md`](./docs/Market_Crash_Defense.md) |
 | 4 | **Literature Review** | Analysis of anti-spoofing research and prior work, whose insights are adapted using transfer learning to strengthen the system’s fraud detection capabilities. | [`docs/Literature_Review.md`](./docs/Literature_Review.md) |
+| 5 | **Innovation** | Highlighting our key innovations across both technical architecture and product features. | [`docs/Innovation.md`](./docs/Innovation.md) |
 
 ---
