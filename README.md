@@ -71,6 +71,29 @@
 >| :-- | :--- | :--- | :--- |
 >| 2 | **Pricing Model** | Explains how weekly premiums are calculated using predicted income loss, risk factors, and AI-driven adjustments.| [`docs/Pricing_Model.md`](./docs/Pricing_Model.md) |
 
+## **Adversarial Defense & Anti-Spoofing Strategy Overview**
+
+>The system is already well designed to defend against **coordinated “Market Crash” attacks**, where large fraud rings simulate disruption events to drain parametric insurance pools.
+>
+>At its core is a **graph-based detection layer (R-GCN)**, which performs the majority of fraud identification by analyzing **relationships between workers, devices, networks, and payout channels**. This enables detection of **synthetic clusters (fraud rings)** even when individual signals appear legitimate.
+>
+>To further improve robustness and handle edge cases, two additional defense layers are introduced:
+>
+>- **Layer 1 (Device & Signal Integrity):** Validates that inputs originate from authentic hardware and consistent physical behavior.
+>- **Layer 3 (Temporal Coordination Analysis):** Identifies synchronized activity patterns indicative of automated, large-scale attacks.
+>
+>This **three-layer architecture** ensures that:
+>
+>>- Spoofed or tampered signals are filtered at the **device level** 
+>>- Fraud is detected **structurally** through graph relationships, and
+>>- Coordinated attacks are exposed via **temporal anomalies**.
+>
+>By combining these independent validation layers, the system achieves **strong adversarial resilience**.
+>| # | Component | Description | Location |
+>| :-- | :--- | :--- | :--- |
+>| 3 | **Market Crash Defense** | Detailed Explantion of three-layer fraud defense strategy combining device integrity, graph-based ring detection (R-GCN), and temporal analysis to mitigate coordinated spoofing attacks. | [`docs/Market_Crash_Defense.md`](./docs/Market_Crash_Defense.md) |
+>| 4 | **Literature Review** | Analysis of anti-spoofing research and prior work, whose insights are adapted using transfer learning to strengthen the system’s fraud detection capabilities. | [`docs/Literature_Review.md`](./docs/Literature_Review.md) |
+
 ---
 ## Resource Mapping
 
@@ -78,5 +101,7 @@
 | :-- | :--- | :--- | :--- |
 | 1 | **Solution Architecture** | Detailed breakdown of all components and their roles within the overall system design. | [`docs/Solution_architecture.md`](./docs/Solution_architecture.md) |
 | 2 | **Pricing Model** | Explains how weekly premiums are calculated using predicted income loss, risk factors, and AI-driven adjustments.| [`docs/Pricing_Model.md`](./docs/Pricing_Model.md) |
+| 3 | **Market Crash Defense** | Detailed Explantion of three-layer fraud defense strategy combining device integrity, graph-based ring detection (R-GCN), and temporal analysis to mitigate coordinated spoofing attacks. | [`docs/Market_Crash_Defense.md`](./docs/Market_Crash_Defense.md) |
+| 4 | **Literature Review** | Analysis of anti-spoofing research and prior work, whose insights are adapted using transfer learning to strengthen the system’s fraud detection capabilities. | [`docs/Literature_Review.md`](./docs/Literature_Review.md) |
 
 ---
