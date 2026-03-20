@@ -208,5 +208,7 @@ We're at the end of ideation and the start of something real. Here's where we wa
 | 3 | **Market Crash Defense** | Detailed Explantion of three-layer fraud defense strategy combining device integrity, graph-based ring detection (R-GCN), and temporal analysis to mitigate coordinated spoofing attacks. | [`docs/Market_Crash_Defense.md`](./docs/Market_Crash_Defense.md) |
 | 4 | **Literature Review** | Analysis of anti-spoofing research and prior work, whose insights are adapted using transfer learning to strengthen the system’s fraud detection capabilities. | [`docs/Literature_Review.md`](./docs/Literature_Review.md) |
 | 5 | **Innovation** | Highlighting our key innovations across both technical architecture and product features. | [`docs/Innovation.md`](./docs/Innovation.md) |
+| 6 | **Presentation Video** | A presentation video demonstrating our solution and its functionality. | [`assets/presentation_video.mov`](./presentation_video.mov) |
+| 7 | **Prototype Demo** | A Demo Video to simulate the basic working prototype | [`assets/prototype_video.mov`](./prototype_video.mov) |
 
 ---
