@@ -94,7 +94,7 @@
 >| 3 | **Market Crash Defense** | Detailed Explantion of three-layer fraud defense strategy combining device integrity, graph-based ring detection (R-GCN), and temporal analysis to mitigate coordinated spoofing attacks. | [`docs/Market_Crash_Defense.md`](./docs/Market_Crash_Defense.md) |
 >| 4 | **Literature Review** | Analysis of anti-spoofing research and prior work, whose insights are adapted using transfer learning to strengthen the system’s fraud detection capabilities. | [`docs/Literature_Review.md`](./docs/Literature_Review.md) |
 
-## Innovation 
+## **Innovation** 
 <p align="center">
   <img src="assets/innovation.png" width="500">
 <p>
@@ -104,7 +104,7 @@
 >| 5 | **Innovation** | Highlighting our key innovations across both technical architecture and product features. | [`docs/Innovation.md`](./docs/Innovation.md) |
 
 
-## Planned Tech Stack
+## **Planned Tech Stack**
 
 >### AI / Machine Learning
 >>| Technology | Category | Role in System |
@@ -148,7 +148,58 @@
 
 ---
 
-## Resource Mapping
+## **The Prototype**
+
+>The interactive simulation at [devtrailers-prototype.onrender.com](https://devtrailers-prototype.onrender.com) was built deliberately lightweight so it runs anywhere, on any device. It's a proof-of-concept demonstrator, not the production engine, but it makes the system's logic visible and testable.
+
+## **Challenges we ran into**
+
+>- **Fraud at scale is subtle.** The hardest part of designing the R-GCN layer wasn't the model itself — it was accepting that individual fraudulent signals can look *completely legitimate*. A single GPS ping from a spoofed device is indistinguishable from a real one. Only the relational structure — five devices with identical sensor noise all pinging from the same 50-metre radius — gives the game away. That realization fundamentally changed how we thought about the fraud architecture.
+>
+>- **Where exactly is the parametric trigger?** Deciding *when* a weather event is severe enough to constitute a valid disruption was genuinely hard. Too sensitive and workers game it; too strict and you're not protecting the people who actually need it. Calibrating that threshold — and making it audit-transparent — took a lot of back and forth.
+>
+>- **Making the pricing fair, not just sound.** The actuarial math is one thing. Making it *affordable* for someone earning ₹600 a day is another. The Spatio-Temporal Volatility Score ($V_s$) in particular needed to reflect *hyper-local* risk — not just "Delhi is risky in November" but "Zone 4B of South Delhi is riskier than Zone 4A on Tuesday afternoons." That level of granularity is easy to specify and genuinely hard to compute.
+>
+>- **Signal integrity without surveillance.** We needed enough behavioral and device-level signals to detect spoofing. But we were acutely aware that asking a low-income delivery worker to consent to deep device monitoring is ethically fraught. The system had to be lightweight, transparent, and constrained to active sessions only.
+
+
+## **Accomplishments that we're proud of**
+
+>- Designed a **complete, end-to-end system architecture** — from raw signal ingestion to automated payout — with every component specified, justified, and documented
+>- Derived a **mathematically grounded weekly pricing formula** with real actuarial logic, built specifically for the Indian gig context rather than adapted from a Western model
+>- Built and deployed a **working interactive simulation** that makes the entire system's behavior tangible and testable in a browser — parametric triggers, fraud attacks, and all
+>- Developed a **three-layer adversarial defense architecture** backed by a formal literature review of over 10 research papers on GPS spoofing, graph-based fraud detection, and anti-spoofing transfer learning — synthesizing insights from academic work into a practical, deployable design
+>- Framed a solution that is genuinely **accessible** — no prior insurance history, no paperwork, no smartphone required beyond a basic Android device
+
+
+## **What we learned**
+
+>- **Parametric insurance is uniquely powerful for vulnerable populations.** Removing the claims process isn't just a UX improvement — it eliminates the exact barrier that has kept informal workers out of insurance for decades.
+>
+>- **Graph-based ML is essential for fraud in connected systems.** We came in thinking anomaly detection on individual records would be sufficient. We left convinced that without the relational layer, any parametric pool is wide open to coordinated attacks.
+>
+>- **Pricing for informal workers means unlearning actuarial defaults.** Classical models assume salaried income, formal claim history, and documented records. None of those exist here. Building from scratch was uncomfortable and necessary.
+>
+>- **System design is as important as the models.** The audit layer, the session-controlled signal access, the three-layer independence of the fraud stack — these architectural decisions matter as much as the AI components for real-world trust and accountability.
+>
+>- **Research papers are only useful if you translate them.** We read through more than 10 papers on anti-spoofing, graph fraud detection, and parametric insurance design. 
+>
+>- The real work wasn't technical instead it was forming ideation after figuring out what each finding *actually meant* for a gig worker in Chennai with a ₹8,000/month income.
+
+
+## **What's next for Devtrailers**
+
+We're at the end of ideation and the start of something real. Here's where we want to go:
+
+>- **Build the actual engine** — move from architecture diagrams and a simulation prototype to a working backend: the signal validation layer, the pricing engine, and the fraud detection stack
+>- **Pilot with a real delivery fleet** — onboard 50–100 delivery workers in Bengaluru or Chennai to validate the pricing model and payout triggers with real behavioral data
+>- **Live API integration** — connect to India Meteorological Department (IMD) and CPCB feeds for genuine real-time disruption triggers instead of simulated ones
+>- **UPI AutoPay** — wire up the UPI stack for frictionless weekly premium collection and instant payout disbursement
+>- **Expand disruption categories** — platform outages, fuel price spikes, state-level bandhs, emergency orders
+>- **Multilingual Android app** — Hindi, Tamil, Telugu, Kannada — built for last-mile accessibility, not just for smartphones with great specs
+>- **Open the risk pool** — let NGOs, worker unions, or platform companies co-sponsor coverage and contribute to $K$, pushing premiums down for the workers who need it most
+
+## **Resource Mapping**
 
 | # | Component | Description | Location |
 | :-- | :--- | :--- | :--- |
