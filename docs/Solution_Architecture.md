@@ -1,7 +1,9 @@
 ## **Solution Architecture & Key Mechanisms**
 
->The platform is designed as a **multi-layered, event-driven insurance pipeline**, where trusted data is ingested, validated, analyzed, and transformed into real-time decisions.
->Each layer is architected to ensure **data integrity, adaptive risk assessment, fraud resilience, and autonomous settlement**, forming a closed-loop system that operates with minimal manual intervention.
+> The platform is designed as a **multi-layered, event-driven insurance pipeline**, where trusted data is ingested, validated, analyzed, and transformed into real-time decisions.
+> Each layer is architected to ensure **data integrity, adaptive risk assessment, fraud resilience, and autonomous settlement**, forming a closed-loop system that operates with minimal manual intervention.
+>
+> Additionally, the system incorporates a **three-layer Market Crash Defense strategy**, combining **device integrity validation, graph-based ring detection, and temporal coordination analysis** to ensure resilience against large-scale coordinated spoofing attacks.
 
 ---
 
@@ -22,6 +24,8 @@ Given the susceptibility of location-based systems to **GPS spoofing, emulator a
 
 * **On-Device Anomaly Detection Models:**
   Lightweight edge models classify session integrity in real time, filtering suspicious inputs at the source.
+
+This layer also forms the **first line of defense in the Market Crash strategy**, ensuring only **authentic hardware-origin signals** propagate forward.
 
 Only **high-confidence, verified signals** are allowed into downstream systems, ensuring that all subsequent intelligence operates on **trusted data foundations**.
 
@@ -70,13 +74,15 @@ To mitigate coordinated and large-scale fraud, the system employs a **graph-base
 A **heterogeneous graph structure** is constructed with nodes representing workers, devices, IP addresses, and payout accounts, and edges capturing behavioral and attribute-level connections.
 
 * **Relational Graph Neural Networks (R-GCNs):**
-  Propagate risk signals across connected entities to identify suspicious clusters such as Sybil networks.
+  Propagate risk signals across connected entities to identify suspicious clusters such as Sybil networks and **synthetic fraud islands formed during Market Crash scenarios**.
 
 * **Temporal GNNs (T-GNNs):**
-  Detect synchronized and statistically improbable behavioral patterns over time.
+  Detect synchronized and statistically improbable behavioral patterns over time, forming the **temporal defense layer against coordinated attacks**.
 
 * **Isolation Forest-Based Anomaly Detection:**
   Flags deviations in activity patterns, claim frequency, and account behavior.
+
+This layer serves as the **core engine of the Market Crash Defense**, identifying fraud **structurally through cluster density and shared infrastructure**, rather than relying solely on individual signals.
 
 This layered approach enables **high-precision fraud detection** while preserving the integrity of legitimate users.
 
@@ -114,7 +120,7 @@ Coverage is **automatically triggered** based on verified external events such a
   Uses validated signals from upstream layers to initiate coverage conditions.
 
 * **Rule-Based Eligibility Engine:**
-  Evaluates worker activity, geolocation, and policy constraints.
+  Evaluates worker activity, geolocation, and policy constraints, incorporating **fraud signals from the Market Crash Defense layers**.
 
 * **Instant Payout Execution:**
   Processes payments via UPI rails for near real-time compensation.
@@ -128,7 +134,7 @@ This architecture enables **fully automated, event-driven settlement**, shifting
 To ensure trust, compliance, and system accountability, the platform incorporates a **traceability layer** that records all critical decisions in a tamper-resistant manner.
 
 * **Immutable Event Logging:**
-  Cryptographically records disruption events, eligibility evaluations, and payout decisions.
+  Cryptographically records disruption events, eligibility evaluations, and payout decisions, including **fraud and cluster-level decisions**.
 
 * **Deterministic Decision Replay:**
   Enables reconstruction of past decisions for auditing and explainability.
