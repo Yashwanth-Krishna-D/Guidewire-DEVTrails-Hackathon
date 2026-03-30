@@ -152,6 +152,7 @@
 
 >The interactive simulation at [devtrailers-prototype.onrender.com](https://devtrailers-prototype.onrender.com) was built deliberately lightweight so it runs anywhere, on any device. It's a proof-of-concept demonstrator, not the production engine, but it makes the system's logic visible and testable.
 
+<!--
 ## **Challenges we ran into**
 
 >- **Fraud at scale is subtle.** The hardest part of designing the R-GCN layer wasn't the model itself — it was accepting that individual fraudulent signals can look *completely legitimate*. A single GPS ping from a spoofed device is indistinguishable from a real one. Only the relational structure — five devices with identical sensor noise all pinging from the same 50-metre radius — gives the game away. That realization fundamentally changed how we thought about the fraud architecture.
@@ -161,8 +162,9 @@
 >- **Making the pricing fair, not just sound.** The actuarial math is one thing. Making it *affordable* for someone earning ₹600 a day is another. The Spatio-Temporal Volatility Score ($V_s$) in particular needed to reflect *hyper-local* risk — not just "Delhi is risky in November" but "Zone 4B of South Delhi is riskier than Zone 4A on Tuesday afternoons." That level of granularity is easy to specify and genuinely hard to compute.
 >
 >- **Signal integrity without surveillance.** We needed enough behavioral and device-level signals to detect spoofing. But we were acutely aware that asking a low-income delivery worker to consent to deep device monitoring is ethically fraught. The system had to be lightweight, transparent, and constrained to active sessions only.
+-->
 
-
+<!--
 ## **Accomplishments that we're proud of**
 
 >- Designed a **complete, end-to-end system architecture** — from raw signal ingestion to automated payout — with every component specified, justified, and documented
@@ -170,8 +172,9 @@
 >- Built and deployed a **working interactive simulation** that makes the entire system's behavior tangible and testable in a browser — parametric triggers, fraud attacks, and all
 >- Developed a **three-layer adversarial defense architecture** backed by a formal literature review of over 10 research papers on GPS spoofing, graph-based fraud detection, and anti-spoofing transfer learning — synthesizing insights from academic work into a practical, deployable design
 >- Framed a solution that is genuinely **accessible** — no prior insurance history, no paperwork, no smartphone required beyond a basic Android device
+-->
 
-
+<!--
 ## **What we learned**
 
 >- **Parametric insurance is uniquely powerful for vulnerable populations.** Removing the claims process isn't just a UX improvement — it eliminates the exact barrier that has kept informal workers out of insurance for decades.
@@ -185,8 +188,9 @@
 >- **Research papers are only useful if you translate them.** We read through more than 10 papers on anti-spoofing, graph fraud detection, and parametric insurance design. 
 >
 >- The real work wasn't technical instead it was forming ideation after figuring out what each finding *actually meant* for a gig worker in Chennai with a ₹8,000/month income.
+-->
 
-
+<!--
 ## **What's next for Devtrailers**
 
 We're at the end of ideation and the start of something real. Here's where we want to go:
@@ -198,6 +202,25 @@ We're at the end of ideation and the start of something real. Here's where we wa
 >- **Expand disruption categories** — platform outages, fuel price spikes, state-level bandhs, emergency orders
 >- **Multilingual Android app** — Hindi, Tamil, Telugu, Kannada — built for last-mile accessibility, not just for smartphones with great specs
 >- **Open the risk pool** — let NGOs, worker unions, or platform companies co-sponsor coverage and contribute to $K$, pushing premiums down for the workers who need it most
+-->
+
+## Standard Insurance Exclusions 
+>
+>### War & Civil Disturbance
+> - War, invasion, riots, rebellion, terrorism-related shutdowns
+>
+>### Nuclear / Chemical Risks
+> - Radiation, nuclear contamination, chemical hazards
+>
+>### Pandemic Shutdowns
+> - Restrictions by authorities like World Health Organization / International Organizations
+>
+>### Demand Loss for working organization
+> - Reduced customers, supply chain disruptions, economic slowdown, inflation, indirect financial losses
+>
+>### Contractual Penalties
+>- Losses due to breach of contract or SLA penalties
+
 
 ## **Resource Mapping**
 
