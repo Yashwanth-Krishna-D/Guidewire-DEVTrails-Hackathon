@@ -61,7 +61,7 @@ function ensureGigDefaults(user) {
 }
 
 router.get("/weekly-premium", async (req, res) => {
-  const user = await findUserById(req.userId);
+  const user = findUserById(req.userId);
   if (!user) return res.status(404).json({ error: "User not found" });
   const base = ensureGigDefaults(user);
 
@@ -94,8 +94,8 @@ router.get("/weekly-premium", async (req, res) => {
   });
 });
 
-router.patch("/profile", async (req, res) => {
-  const user = await findUserById(req.userId);
+router.patch("/profile", (req, res) => {
+  const user = findUserById(req.userId);
   if (!user) return res.status(404).json({ error: "User not found" });
 
   const cur = ensureGigDefaults(user);
@@ -119,22 +119,22 @@ router.patch("/profile", async (req, res) => {
   next.maxWeeklyPayout = wp.coverage.maxWeeklyPayout;
   delete next.zoneId;
 
-  await updateUser(user.id, { gigProfile: next });
-  const fresh = await findUserById(user.id);
+  updateUser(user.id, { gigProfile: next });
+  const fresh = findUserById(user.id);
   const { passwordHash, ...pub } = fresh;
   res.json({ gigProfile: fresh.gigProfile, premium: wp, user: pub });
 });
 
 router.post("/payout/evaluate", async (req, res) => {
-  const user = await findUserById(req.userId);
+  const user = findUserById(req.userId);
   if (!user) return res.status(404).json({ error: "User not found" });
 
   const g = ensureGigDefaults(user);
   if (g.subscriptionActive === false) {
     return res.status(400).json({ error: "Subscription not active" });
   }
-  
-  const payouts = await listParametricPayoutsForUser(user.id);
+
+  const payouts = listParametricPayoutsForUser(user.id);
   const today = new Date().toISOString().split("T")[0];
   const alreadyTriggeredToday = payouts.some(p => p.createdAt.startsWith(today));
 
@@ -153,8 +153,7 @@ router.post("/payout/evaluate", async (req, res) => {
   }
 
   const hourly = PLATFORM_HOURLY_INR[g.platform] ?? PLATFORM_HOURLY_INR.other;
-  const payoutsList = await listParametricPayoutsForUser(user.id);
-  const prior = payoutsList.length;
+  const prior = listParametricPayoutsForUser(user.id).length;
   const validationCoefficient =
     typeof user.validationCoefficient === "number" ? user.validationCoefficient : 0.85;
 
@@ -169,7 +168,7 @@ router.post("/payout/evaluate", async (req, res) => {
 
   let recorded = null;
   if (calc.eligible && calc.amount > 0) {
-    recorded = await createParametricPayout({
+    recorded = createParametricPayout({
       id: nextId("pay"),
       userId: user.id,
       stateCode: g.stateCode,
@@ -188,9 +187,8 @@ router.post("/payout/evaluate", async (req, res) => {
   });
 });
 
-router.get("/payouts", async (req, res) => {
-  const payouts = await listParametricPayoutsForUser(req.userId);
-  res.json({ payouts });
+router.get("/payouts", (req, res) => {
+  res.json({ payouts: listParametricPayoutsForUser(req.userId) });
 });
 
 module.exports = router;

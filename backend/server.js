@@ -1,20 +1,10 @@
 require("dotenv").config();
 const http = require("http");
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 
 const app = express();
-
-mongoose.set("strictQuery", false);
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("Connected to MongoDB Atlas"))
-  .catch((err) => {
-    console.error("MongoDB connection error:", err);
-    process.exit(1);
-  });
 const BASE_PORT = Number(process.env.PORT) || 4000;
 const MAX_PORT_TRIES = 8;
 
