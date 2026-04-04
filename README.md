@@ -207,6 +207,33 @@ We're at the end of ideation and the start of something real. Here's where we wa
 >- **Open the risk pool** — let NGOs, worker unions, or platform companies co-sponsor coverage and contribute to $K$, pushing premiums down for the workers who need it most
 -->
 
+## How to Run the Project
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Yashwanth-Krishna-D/Guidewire-DEVTrails-Hackathon.git
+cd Guidewire-DEVTrails-Hackathon
+```
+
+### 2. Setup Backend
+
+```bash
+cd backend
+npm install
+npm install india-state-district
+npm run dev
+```
+
+### 3. Setup Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+
 ## Standard Insurance Exclusions 
 >
 >### War & Civil Disturbance
