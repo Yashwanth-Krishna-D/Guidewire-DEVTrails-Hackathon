@@ -2,7 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const DATA_PATH = path.join(__dirname, "..", "data", "riskora.json");
+const DATA_PATH = process.env.DATA_PATH || path.join(__dirname, "..", "data", "riskora.json");
 
 function emptyDb() {
   return { users: [], userPolicies: [], claims: [], parametricPayouts: [] };

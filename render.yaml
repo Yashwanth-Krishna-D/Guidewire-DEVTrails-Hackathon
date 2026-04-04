@@ -1,0 +1,33 @@
+services:
+  # —— Backend Service (Node.js) ——
+  - type: web
+    name: riskora-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATA_PATH
+        value: /var/lib/riskora/riskora.json
+    disk:
+      name: riskora-data
+      mountPath: /var/lib/riskora
+      sizeGB: 1
+
+  # —— Frontend Service (Static Site) ——
+  - type: static
+    name: riskora-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_ORIGIN
+        fromService:
+          type: web
+          name: riskora-backend
+          property: host
