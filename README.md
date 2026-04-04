@@ -2,7 +2,7 @@
 
 [![Hackathon](https://img.shields.io/badge/Event-Guidewire_DEVTrails_2026-purple.svg)]()
 [![Team](https://img.shields.io/badge/Team-Devtrailers-blue.svg)]()
-[![Status](https://img.shields.io/badge/Status-Ideation_Phase-orange.svg)]()
+[![Status](https://img.shields.io/badge/Status-Implementation_Phase-orange.svg)]()
 
 ## **The Problem We’re Solving**
 
@@ -36,9 +36,11 @@
 >| :-- | :--- | :--- | :--- |
 >| 1 | **Solution Architecture** | Detailed breakdown of all components and their roles within the overall system design. | [`docs/Solution_architecture.md`](./docs/Solution_architecture.md) |
 
+<!--
 <p align="center">
   <img src="assets/system_flow.png" width="500">
 <p>
+-->
 
 > The platform operates through a structured pipeline in which **real-time disruption signals are detected, validated, and transformed into actionable insurance events**.
 >
@@ -94,6 +96,7 @@
 >| 3 | **Market Crash Defense** | Detailed Explantion of three-layer fraud defense strategy combining device integrity, graph-based ring detection (R-GCN), and temporal analysis to mitigate coordinated spoofing attacks. | [`docs/Market_Crash_Defense.md`](./docs/Market_Crash_Defense.md) |
 >| 4 | **Literature Review** | Analysis of anti-spoofing research and prior work, whose insights are adapted using transfer learning to strengthen the system’s fraud detection capabilities. | [`docs/Literature_Review.md`](./docs/Literature_Review.md) |
 
+<!--
 ## **Innovation** 
 <p align="center">
   <img src="assets/innovation.png" width="500">
