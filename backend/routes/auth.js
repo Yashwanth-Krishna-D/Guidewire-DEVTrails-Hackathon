@@ -55,8 +55,8 @@ router.post("/register", async (req, res) => {
     if (age < 18) return res.status(400).json({ error: "Must be at least 18 years old" });
 
     const em = email.toLowerCase();
-    if (findUserByEmail(em)) return res.status(409).json({ error: "Email already registered" });
-    if (findUserByPhone(phone)) return res.status(409).json({ error: "Phone number already registered" });
+    if (await findUserByEmail(em)) return res.status(409).json({ error: "Email already registered" });
+    if (await findUserByPhone(phone)) return res.status(409).json({ error: "Phone number already registered" });
 
     const { computeWeeklyPremium, COVERAGE_TIERS } = require("../services/gigPremiumEngine");
 
@@ -101,7 +101,7 @@ router.post("/register", async (req, res) => {
       locationHistory: [],
       createdAt: new Date().toISOString(),
     };
-    createUser(user);
+    await createUser(user);
 
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: JWT_EXPIRY });
     res.status(201).json({
@@ -122,7 +122,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ error: "email and password are required" });
     }
 
-    const user = findUserByEmail(email);
+    const user = await findUserByEmail(email);
     if (!user) return res.status(401).json({ error: "Invalid email or password" });
 
     const valid = await bcrypt.compare(password, user.passwordHash);
@@ -141,8 +141,8 @@ router.post("/login", async (req, res) => {
 });
 
 const authMiddleware = require("../middleware/auth");
-router.get("/me", authMiddleware, (req, res) => {
-  const user = findUserById(req.userId);
+router.get("/me", authMiddleware, async (req, res) => {
+  const user = await findUserById(req.userId);
   if (!user) return res.status(404).json({ error: "User not found" });
   res.json({ user: publicUser(user) });
 });

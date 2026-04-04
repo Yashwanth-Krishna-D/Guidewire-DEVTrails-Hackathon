@@ -5,13 +5,13 @@ const { updateUser, findUserById } = require("../store/fsStore");
 
 router.use(authMiddleware);
 
-router.post("/update", (req, res) => {
+router.post("/update", async (req, res) => {
   const { lat, lng, accuracy } = req.body;
   if (lat == null || lng == null) {
     return res.status(400).json({ error: "lat and lng are required" });
   }
 
-  const user = findUserById(req.userId);
+  const user = await findUserById(req.userId);
   if (!user) return res.status(404).json({ error: "User not found" });
 
   const point = {
@@ -28,7 +28,7 @@ router.post("/update", (req, res) => {
   const validationCoefficient =
     acc != null && acc <= 35 ? 0.92 : acc != null && acc <= 80 ? 0.88 : 0.82;
 
-  updateUser(user.id, {
+  await updateUser(user.id, {
     lastLocation: point,
     locationHistory: history,
     validationCoefficient,
@@ -42,8 +42,8 @@ router.post("/update", (req, res) => {
   });
 });
 
-router.get("/history", (req, res) => {
-  const user = findUserById(req.userId);
+router.get("/history", async (req, res) => {
+  const user = await findUserById(req.userId);
   if (!user) return res.status(404).json({ error: "User not found" });
   res.json({ history: user.locationHistory || [] });
 });

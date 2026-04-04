@@ -1,134 +1,95 @@
-// File-backed persistence for Riskora (no external DB required).
-const fs = require("fs");
-const path = require("path");
-
-const DATA_PATH = process.env.DATA_PATH || path.join(__dirname, "..", "data", "riskora.json");
-
-function emptyDb() {
-  return { users: [], userPolicies: [], claims: [], parametricPayouts: [] };
-}
-
-function load() {
-  try {
-    if (!fs.existsSync(DATA_PATH)) return emptyDb();
-    const raw = fs.readFileSync(DATA_PATH, "utf8");
-    const data = JSON.parse(raw);
-    if (!Array.isArray(data.users)) data.users = [];
-    if (!Array.isArray(data.userPolicies)) data.userPolicies = [];
-    if (!Array.isArray(data.claims)) data.claims = [];
-    if (!Array.isArray(data.parametricPayouts)) data.parametricPayouts = [];
-    return data;
-  } catch {
-    return emptyDb();
-  }
-}
-
-function save(data) {
-  fs.mkdirSync(path.dirname(DATA_PATH), { recursive: true });
-  const tmp = `${DATA_PATH}.${process.pid}.tmp`;
-  fs.writeFileSync(tmp, JSON.stringify(data, null, 2), "utf8");
-  fs.renameSync(tmp, DATA_PATH);
-}
+// MongoDB-backed persistence for Riskora (replaces local JSON storage).
+const User = require("../models/User");
+const UserPolicy = require("../models/UserPolicy");
+const Claim = require("../models/Claim");
+const ParametricPayout = require("../models/ParametricPayout");
 
 function nextId(prefix) {
   return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
 }
 
 // —— Users ——
-function findUserByEmail(email) {
+async function findUserByEmail(email) {
   const e = String(email).toLowerCase();
-  return load().users.find((u) => u.email === e) || null;
+  return await User.findOne({ email: e });
 }
 
-function findUserByPhone(phone) {
-  return load().users.find((u) => u.phone === phone) || null;
+async function findUserByPhone(phone) {
+  return await User.findOne({ phone });
 }
 
-function findUserById(id) {
-  return load().users.find((u) => u.id === id) || null;
+async function findUserById(id) {
+  return await User.findOne({ id });
 }
 
-function createUser(user) {
-  const db = load();
-  db.users.push(user);
-  save(db);
-  return user;
+async function createUser(userData) {
+  const user = new User(userData);
+  return await user.save();
 }
 
-function updateUser(id, patch) {
-  const db = load();
-  const i = db.users.findIndex((u) => u.id === id);
-  if (i === -1) return null;
-  db.users[i] = { ...db.users[i], ...patch, updatedAt: new Date().toISOString() };
-  save(db);
-  return db.users[i];
+async function updateUser(id, patch) {
+  return await User.findOneAndUpdate(
+    { id },
+    { $set: { ...patch, updatedAt: new Date().toISOString() } },
+    { new: true }
+  );
 }
 
 // —— Policies ——
-function listPoliciesForUser(userId) {
-  return load().userPolicies.filter((p) => p.userId === userId);
+async function listPoliciesForUser(userId) {
+  return await UserPolicy.find({ userId });
 }
 
-function findPolicyById(id) {
-  return load().userPolicies.find((p) => p.id === id) || null;
+async function findPolicyById(id) {
+  return await UserPolicy.findOne({ id });
 }
 
-function createUserPolicy(row) {
-  const db = load();
-  db.userPolicies.push(row);
-  save(db);
-  return row;
+async function createUserPolicy(policyData) {
+  const policy = new UserPolicy(policyData);
+  return await policy.save();
 }
 
-function updateUserPolicy(id, patch) {
-  const db = load();
-  const i = db.userPolicies.findIndex((p) => p.id === id);
-  if (i === -1) return null;
-  db.userPolicies[i] = { ...db.userPolicies[i], ...patch, updatedAt: new Date().toISOString() };
-  save(db);
-  return db.userPolicies[i];
+async function updateUserPolicy(id, patch) {
+  return await UserPolicy.findOneAndUpdate(
+    { id },
+    { $set: { ...patch, updatedAt: new Date().toISOString() } },
+    { new: true }
+  );
 }
 
 // —— Claims ——
-function listClaimsForUser(userId) {
-  return load().claims.filter((c) => c.userId === userId);
+async function listClaimsForUser(userId) {
+  return await Claim.find({ userId });
 }
 
-function findClaimById(id) {
-  return load().claims.find((c) => c.id === id) || null;
+async function findClaimById(id) {
+  return await Claim.findOne({ id });
 }
 
-function createClaim(row) {
-  const db = load();
-  db.claims.push(row);
-  save(db);
-  return row;
+async function createClaim(claimData) {
+  const claim = new Claim(claimData);
+  return await claim.save();
 }
 
-function updateClaim(id, patch) {
-  const db = load();
-  const i = db.claims.findIndex((c) => c.id === id);
-  if (i === -1) return null;
-  db.claims[i] = { ...db.claims[i], ...patch, updatedAt: new Date().toISOString() };
-  save(db);
-  return db.claims[i];
+async function updateClaim(id, patch) {
+  return await Claim.findOneAndUpdate(
+    { id },
+    { $set: { ...patch, updatedAt: new Date().toISOString() } },
+    { new: true }
+  );
 }
 
-function listParametricPayoutsForUser(userId) {
-  return load().parametricPayouts.filter((p) => p.userId === userId);
+// —— Parametric Payouts ——
+async function listParametricPayoutsForUser(userId) {
+  return await ParametricPayout.find({ userId });
 }
 
-function createParametricPayout(row) {
-  const db = load();
-  db.parametricPayouts.push(row);
-  save(db);
-  return row;
+async function createParametricPayout(payoutData) {
+  const payout = new ParametricPayout(payoutData);
+  return await payout.save();
 }
 
 module.exports = {
-  DATA_PATH,
-  load,
-  save,
   nextId,
   findUserByEmail,
   findUserByPhone,
