@@ -1,0 +1,22 @@
+# Server
+PORT=4000
+NODE_ENV=development
+
+# MongoDB Atlas URI — replace with your own connection string
+MONGODB_URI=ENTER_YOUR_MONGOSTR
+
+# JWT secret — change this to a long random string in production
+JWT_SECRET=RISKORA_I718_SNUC
+
+# https://openweathermap.org/api
+OPENWEATHER_API_KEY=your_openweathermap_key_here
+
+# https://aqicn.org/data-platform/token/
+WAQI_API_KEY=your_waqi_token_here
+
+# (https://newsapi.org)
+NEWS_API_KEY=your_newsapi_key_here
+
+# FREE APIs
+# OpenAQ  → https://api.openaq.org   
+# IMD RSS → https://mausam.imd.gov.in 
