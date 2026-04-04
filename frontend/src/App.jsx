@@ -4,10 +4,14 @@ import * as api from "./api";
 import "./App.css";
 
 const inr = (n) =>
-  n == null || Number.isNaN(Number(n)) ? "â€”" : new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 }).format(Number(n));
+  n == null || Number.isNaN(Number(n))
+    ? "-"
+    : new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 }).format(Number(n));
 
 const num = (n, d = 2) =>
-  n == null || Number.isNaN(Number(n)) ? "â€”" : Number(n).toLocaleString("en-IN", { maximumFractionDigits: d });
+  n == null || Number.isNaN(Number(n))
+    ? "-"
+    : Number(n).toLocaleString("en-IN", { maximumFractionDigits: d });
 
 function Stat({ label, value, hint, className = "" }) {
   return (
@@ -27,7 +31,9 @@ function BarMeter({ value, max = 2, label }) {
       <div className="meter-track">
         <div className="meter-fill" style={{ width: `${pct}%` }} />
       </div>
-      <div className="meter-num">{num(value, 0)} / {max}</div>
+      <div className="meter-num">
+        {num(value, 0)} / {max}
+      </div>
     </div>
   );
 }
@@ -299,7 +305,6 @@ export default function App() {
   const windValue = w?.windSpeedMs ?? 0;
   const rainValue = w?.rainfall1h ?? 0;
   const stateRiskPct = Math.min(100, (Number(ctx?.stateRiskScore || 0) / 1) * 100);
-  const areaRiskPct = Math.min(100, (Number(pv?.V_s || 0) / 2.2) * 100);
   const workConsistencyPct = Math.min(100, (Number(pv?.Phi_r || 0) / 1.2) * 100);
   const locationTrustPct = Math.min(100, (Number(locLambda ?? user?.validationCoefficient ?? 0) / 1) * 100);
   const marginPct = Math.min(100, Number(pv?.M_percent || 0));
@@ -308,14 +313,8 @@ export default function App() {
   const hoursPct = Math.min(100, (Number(ctx?.hoursPerDay || 0) / 14) * 100);
   const daysPct = Math.min(100, (Number(ctx?.daysActive || 0) / 7) * 100);
   const temperaturePct = Math.min(100, (Math.min(Math.abs(tempValue - 24), 20) / 20) * 100);
-  const windPct = Math.min(100, (windValue / 20) * 100);
-  const rainPct = Math.min(100, (rainValue / 20) * 100);
-  const aqiPct = Math.min(100, (aqiValue / 300) * 100);
-  const pm25Pct = Math.min(100, ((aq?.pm25 ?? 0) / 200) * 100);
   const pm10Pct = Math.min(100, ((aq?.pm10 ?? 0) / 250) * 100);
   const activeSignalPct = Math.min(100, (activeSignals / 3) * 100);
-  const restrictionPct = civil ? 100 : 12;
-  const safetyPct = Math.max(0, 100 - Math.min(100, (Number(fraudScore || 0) / 0.5) * 100));
   const payoutsPct = Math.min(100, (para.length / 10) * 100);
   const payoutAmountPct = payoutCap ? Math.min(100, (payoutAmount / payoutCap) * 100) : 0;
   const fraudThreshold = 0.35;
@@ -326,7 +325,7 @@ export default function App() {
   if (authBusy) {
     return (
       <div className="shell">
-        <p className="muted">Loadingâ€¦</p>
+        <p className="muted">Loading...</p>
       </div>
     );
   }
@@ -497,26 +496,36 @@ export default function App() {
         <div className="panel-head">
           <h2>Your plan and price</h2>
           <button type="button" className="btn-sm" disabled={busy.premium} onClick={refreshDashboard}>
-            {busy.premium ? "â€¦" : "Refresh"}
+            {busy.premium ? "..." : "Refresh"}
           </button>
         </div>
         <div className="stat-grid plan-grid">
-          <Stat className="stat-hero stat-payment" label="Your weekly payment" value={`â‚¹${inr(premiumLive?.premium?.weeklyPremiumInr)}`} hint={`Î» live ${premiumLive?.liveSeverityUsed ?? "â€”"}`} />
-          <Stat className="stat-hero stat-support" label="Maximum weekly support" value={`â‚¹${inr(gp?.maxWeeklyPayout)}`} />
+          <Stat
+            className="stat-hero stat-payment"
+            label="Your weekly payment"
+            value={`Rs. ${inr(premiumLive?.premium?.weeklyPremiumInr)}`}
+            hint={`Live risk ${premiumLive?.liveSeverityUsed ?? "-"}`}
+          />
+          <Stat className="stat-hero stat-support" label="Maximum weekly support" value={`Rs. ${inr(gp?.maxWeeklyPayout)}`} />
           <Stat className="stat-key" label="Expected income loss" value={num(pv?.L_e)} />
           <Stat className="stat-key" label="Area risk level" value={num(pv?.V_s)} hint={`+${num(pv?.V_s_liveBoost, 3)} live`} />
         </div>
         <div className="insight-grid">
           <InsightCard title="Work pattern">
-            <ProgressRow label="Estimated pay per hour" value={`â‚¹${inr(ctx?.hourlyRateInr)}`} pct={hourlyPct} tone="blue" />
+            <ProgressRow label="Estimated pay per hour" value={`Rs. ${inr(ctx?.hourlyRateInr)}`} pct={hourlyPct} tone="blue" />
             <ProgressRow label="Work hours per day" value={num(ctx?.hoursPerDay, 0)} pct={hoursPct} tone="amber" />
             <ProgressRow label="Working days per week" value={num(ctx?.daysActive, 0)} pct={daysPct} tone="green" />
             <ProgressRow label="Work consistency" value={num(pv?.Phi_r)} pct={workConsistencyPct} tone="violet" />
           </InsightCard>
           <InsightCard title="Pricing drivers">
             <ProgressRow label="Risk in your state" value={num(ctx?.stateRiskScore, 3)} pct={stateRiskPct} tone="blue" />
-            <ProgressRow label="Location trust score" value={locLambda != null ? num(locLambda, 3) : num(user?.validationCoefficient, 3)} pct={locationTrustPct} tone="green" />
-            <ProgressRow label="Service margin" value={pv?.M_percent != null ? `${pv.M_percent}%` : "â€”"} pct={marginPct} tone="amber" />
+            <ProgressRow
+              label="Location trust score"
+              value={locLambda != null ? num(locLambda, 3) : num(user?.validationCoefficient, 3)}
+              pct={locationTrustPct}
+              tone="green"
+            />
+            <ProgressRow label="Service margin" value={pv?.M_percent != null ? `${pv.M_percent}%` : "-"} pct={marginPct} tone="amber" />
             <ProgressRow label="Shared pool factor" value={num(pv?.K, 2)} pct={poolPct} tone="rose" />
           </InsightCard>
         </div>
@@ -526,18 +535,25 @@ export default function App() {
         <div className="panel-head">
           <h2>Live conditions in your area</h2>
           <button type="button" className="btn-sm" disabled={busy.signals} onClick={() => refreshDashboard()}>
-            {busy.signals ? "â€¦" : "Refresh"}
+            {busy.signals ? "..." : "Refresh"}
           </button>
         </div>
         <div className="stat-grid stat-grid-4 live-grid">
           <Stat className="stat-hero live-primary" label="Air quality score" value={num(aq?.value, 0)} />
-          <Stat className="stat-key" label="Current temperature (Â°C)" value={num(w?.tempC, 1)} />
+          <Stat className="stat-key" label="Current temperature (C)" value={num(w?.tempC, 1)} />
           <Stat className="stat-key" label="Risk signals active" value={activeSignals} />
         </div>
         <div className="insight-grid insight-grid-compact">
           <InsightCard title="Trigger thresholds">
             <ThresholdRow label="Air quality" value={num(aq?.value, 0)} current={aqiValue} max={300} threshold={200} tone="rose" />
-            <ThresholdRow label="PM2.5 dust" value={aq?.pm25 != null ? num(aq.pm25, 0) : "â€”"} current={aq?.pm25 ?? 0} max={200} threshold={150} tone="amber" />
+            <ThresholdRow
+              label="PM2.5 dust"
+              value={aq?.pm25 != null ? num(aq.pm25, 0) : "-"}
+              current={aq?.pm25 ?? 0}
+              max={200}
+              threshold={150}
+              tone="amber"
+            />
             <ThresholdRow label="Wind speed" value={num(w?.windSpeedMs, 2)} current={windValue} max={20} threshold={14} tone="blue" />
             <ThresholdRow label="Rain in last hour" value={num(w?.rainfall1h, 2)} current={rainValue} max={20} threshold={15} tone="green" />
           </InsightCard>
@@ -545,7 +561,7 @@ export default function App() {
             <ProgressRow label="Temperature now" value={num(w?.tempC, 1)} pct={temperaturePct} tone="amber" />
             <ProgressRow label="Active signals" value={activeSignals} pct={activeSignalPct} tone="violet" />
             <StatusRow label="Restriction alert" value={civil ? "Restriction active" : "No restriction"} tone={civil ? "alert" : "ok"} />
-            <ProgressRow label="PM10 dust" value={aq?.pm10 != null ? num(aq.pm10, 0) : "â€”"} pct={pm10Pct} tone="blue" />
+            <ProgressRow label="PM10 dust" value={aq?.pm10 != null ? num(aq.pm10, 0) : "-"} pct={pm10Pct} tone="blue" />
           </InsightCard>
         </div>
         <BarMeter value={trig?.severityCode ?? 0} max={2} label="Today's disruption level" />
@@ -555,17 +571,31 @@ export default function App() {
         <div className="panel-head">
           <h2>Emergency support payout</h2>
           <button type="button" className="btn-sm" disabled={busy.payout} onClick={runPayout}>
-            {busy.payout ? "â€¦" : "Check now"}
+            {busy.payout ? "..." : "Check now"}
           </button>
         </div>
         <div className="stat-grid stat-grid-4 payout-grid">
-          <Stat className="stat-hero payout-primary" label="Can you get support now?" value={payoutEval?.payout ? (payoutEval.payout.eligible ? "Yes" : "No") : "â€”"} />
-          <Stat className="stat-hero payout-amount" label="Amount (â‚¹)" value={payoutEval?.payout ? inr(payoutEval.payout.amount) : "â€”"} />
+          <Stat className="stat-hero payout-primary" label="Can you get support now?" value={payoutEval?.payout ? (payoutEval.payout.eligible ? "Yes" : "No") : "-"} />
+          <Stat className="stat-hero payout-amount" label="Amount (Rs.)" value={payoutEval?.payout ? inr(payoutEval.payout.amount) : "-"} />
         </div>
         <div className="insight-grid insight-grid-compact">
           <InsightCard title="Payout thresholds">
-            <ThresholdRow label="Fraud hold score" value={fraudScore != null ? num(fraudScore, 3) : "â€”"} current={fraudScore ?? 0} max={0.5} threshold={fraudThreshold} tone="green" />
-            <ThresholdRow label="Support used vs cap" value={payoutCap ? `${Math.round(payoutAmountPct)}%` : "â€”"} current={payoutAmount} max={payoutCap || 1} threshold={payoutCap || 0} tone="blue" />
+            <ThresholdRow
+              label="Fraud hold score"
+              value={fraudScore != null ? num(fraudScore, 3) : "-"}
+              current={fraudScore ?? 0}
+              max={0.5}
+              threshold={fraudThreshold}
+              tone="green"
+            />
+            <ThresholdRow
+              label="Support used vs cap"
+              value={payoutCap ? `${Math.round(payoutAmountPct)}%` : "-"}
+              current={payoutAmount}
+              max={payoutCap || 1}
+              threshold={payoutCap || 0}
+              tone="blue"
+            />
           </InsightCard>
           <InsightCard title="Payout history">
             <ProgressRow label="Total payouts received" value={num(para.length, 0)} pct={payoutsPct} tone="amber" />
@@ -580,7 +610,7 @@ export default function App() {
         <table className="data-table">
           <thead>
             <tr>
-              <th>Amount (â‚¹)</th>
+              <th>Amount (Rs.)</th>
               <th>Received on</th>
             </tr>
           </thead>
@@ -595,7 +625,7 @@ export default function App() {
               para.map((p) => (
                 <tr key={p.id}>
                   <td>{inr(p.amount)}</td>
-                  <td>{p.createdAt ? new Date(p.createdAt).toLocaleString("en-IN") : "â€”"}</td>
+                  <td>{p.createdAt ? new Date(p.createdAt).toLocaleString("en-IN") : "-"}</td>
                 </tr>
               ))
             )}
@@ -701,3 +731,4 @@ export default function App() {
     </div>
   );
 }
+
